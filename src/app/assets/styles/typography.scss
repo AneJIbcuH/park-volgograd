@@ -1,0 +1,38 @@
+.title {
+  font-weight: 700;
+  font-size: 64px;
+}
+
+.subtitle {
+  font-weight: 700;
+  font-size: 40px;
+
+  &-s {
+    font-size: 32px;
+  }
+
+  &-l {
+    font-size: 48px;
+  }
+}
+
+.text {
+  font-size: 32px;
+  color: var(--gray);
+
+  &-l {
+    font-size: 40px;
+  }
+
+  &-s {
+    font-size: 28px;
+  }
+
+  &-xs {
+    font-size: 24px;
+  }
+
+  &-xxs {
+    font-size: 20px;
+  }
+}
