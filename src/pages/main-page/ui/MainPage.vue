@@ -19,6 +19,7 @@ const { widget } = storeToRefs(useStore())
 const initialTouch = ref(0)
 const distance = ref(0)
 const transition = ref(0.3)
+const indicator = ref<HTMLElement>()
 
 function touchStart(e: TouchEvent) {
 	initialTouch.value = e.changedTouches[0].clientY
@@ -26,27 +27,8 @@ function touchStart(e: TouchEvent) {
 
 function touchMove(e: TouchEvent) {
 	if (e.changedTouches[0].clientY - initialTouch.value >= 50) {
-		if (widget.value == 'map' || widget.value == 'settings') {
-			distance.value = 440
-			transition.value = 0.5
-		} else if (widget.value == 'info') {
-			distance.value = 3345
-			transition.value = 1
-		} else if (
-			widget.value == 'events' ||
-			widget.value == 'news' ||
-			widget.value == 'gifts' ||
-			widget.value == 'places'
-		) {
-			distance.value = 2330
-			transition.value = 0.8
-		} else if (widget.value == 'attraction') {
-			distance.value = 1630
-			transition.value = 0.7
-		} else if (widget.value == 'keyboard') {
-			distance.value = 1080
-			transition.value = 0.65
-		}
+		distance.value = 3730 - indicator.value!.offsetTop
+		transition.value = 0.4 +  indicator.value!.offsetHeight / 5600
 	}
 	if (e.changedTouches[0].clientY - initialTouch.value <= -50) {
 		distance.value = 0
@@ -66,6 +48,7 @@ function touchMove(e: TouchEvent) {
 				transform: `translateY(${distance}px)`,
 				transition: `${transition}s`,
 			}"
+			ref="indicator"
 		>
 			<div v-if="distance == 0" class="drawer-hook"></div>
 			<img v-else src="/hook.png" alt="" class="drawer-hookup" />
@@ -73,7 +56,7 @@ function touchMove(e: TouchEvent) {
 				:class="['drawer-blur', distance != 0 ? 'blur' : '']"
 				:style="{ transition: `${transition}s` }"
 			>
-				<TransitionGroup name="drawer">
+				<TransitionGroup name="drawer" :appear="true">
 					<AboutAttraction v-if="widget == 'attraction'" />
 					<Search
 						v-if="

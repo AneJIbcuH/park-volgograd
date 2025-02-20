@@ -3,6 +3,7 @@ import { useStore } from '@/shared/stores/store'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { keys, type Key } from './model'
+import { gsap } from 'gsap'
 import VIcon from '@/shared/ui/v-icon/VIcon.vue'
 import KeyboardLinks from '../../keyboard-links/ui/KeyboardLinks.vue'
 
@@ -91,29 +92,67 @@ function backSpace() {
 		linkInput.value.linkInput.setSelectionRange(startPos - 1, startPos - 1)
 	}, 0)
 }
+
+const left = ref()
+const top = ref()
+function onBeforeEnter(el: any) {
+	console.log('beforte enter')
+}
+
+function onEnter(el: any, done: any) {
+	console.log('enter')
+}
+function onLeave(el: Element, done: any) {
+	console.log('leave')
+	console.log('top', top.value)
+	console.log('left', left.value)
+	el.style.position = 'absolute'
+	el.style.left = left.value + 'px'
+	el.style.top = top.value + 'px'
+}
+
+function onBeforeLeave(el: Element) {
+	// console.log('before leave client rect:', el.getBoundingClientRect())
+	// console.log('before leave innerHTML:', el.innerHTML)
+	console.log('before leave innerHTML:')
+	left.value = el.offsetLeft
+	top.value = el.offsetTop
+}
 </script>
 
 <template>
 	<div class="keyboard" :class="[{ firstOpen: firstOpen }]">
 		<KeyboardLinks />
 		<div class="keyboard-board">
-			<div
-				v-for="key in keys"
-				:key="key[variant]"
-				:class="[
-					key.class,
-					upperCase && key[variant] != 'Enter' ? 'upperCase' : '',
-				]"
-				@click="writting(key)"
+			<TransitionGroup
+				name="keys"
+				:appear="true"
+				@before-enter="onBeforeEnter"
+				@enter="onEnter"
+				@leave="onLeave"
+				@before-leave="onBeforeLeave"
 			>
-				{{ key.icon ? '' : key.cut ? key[variant].slice(0, -4) : key[variant] }}
-				<VIcon
-					v-if="key.icon"
-					:name="key.icon"
-					:size="key.size"
-					class="keyboard-board-icon"
-				/>
-			</div>
+				<div
+					v-for="(key, index) in keys"
+					:key="key[variant]"
+					:data-index="index"
+					:class="[
+						key.class,
+						upperCase && key[variant] != 'Enter' ? 'upperCase' : '',
+					]"
+					@click="writting(key)"
+				>
+					{{
+						key.icon ? '' : key.cut ? key[variant].slice(0, -4) : key[variant]
+					}}
+					<VIcon
+						v-if="key.icon"
+						:name="key.icon"
+						:size="key.size"
+						class="keyboard-board-icon"
+					/>
+				</div>
+			</TransitionGroup>
 		</div>
 		<div class="keyboard-close" @click="closeKeyboard">
 			<VIcon name="close" size="48" class="keyboard-close-icon" />
@@ -127,7 +166,7 @@ function backSpace() {
 	flex-direction: column;
 	align-items: center;
 	gap: 20px;
-	transition: all .4s ease-out;
+	transition: all 0.4s ease-out;
 
 	&-board {
 		display: flex;
@@ -139,6 +178,7 @@ function backSpace() {
 		width: 1712px;
 		height: 560px;
 		background: var(--white);
+		// position: relative;
 
 		&-icon {
 			color: transparent;

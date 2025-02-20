@@ -79,7 +79,9 @@
 }
 
 //////////////////////////////////////////
-
+.switch-move {
+  transition: all 0.5s ease-out;
+}
 .switch-enter-active {
   transition: all 0.5s ease;
 }
@@ -97,6 +99,9 @@
 }
 
 ///////////////////////////////////////////
+.card-move {
+  transition: all 0.4s ease-out;
+}
 .card-enter-active {
   transition: all 0.4s ease-out;
 }
@@ -114,13 +119,16 @@
   filter: blur(50px);
 }
 /////////////////////////////////////////////
+.drawer-move {
+  transition: all 0.4s ease-out;
+}
 
 .drawer-enter-active {
-  transition: all .4s ease-out;
+  transition: all 0.4s ease-out;
 }
 
 .drawer-leave-active {
-  transition: all .4s ease-out;
+  transition: all 0.4s ease-out;
 }
 
 .drawer-leave-to {
@@ -146,53 +154,40 @@
 }
 
 ////////////////////////////////////////////
-.keyboard-enter-active {
-  transition: all 0.4s ease-out;
+.keys-move {
+  transition: all .7s ease-out;
+  
 }
-
-.keyboard-leave-active {
-  transition: all 0.4s ease-out;
+.keys-enter-active {
+  transition: all .7s ease-out;
 }
-
-.keyboard-leave-to {
-  opacity: 0;
-  transform: translateY(500px);
+.keys-leave-active {
+  transition: all .7s ease-out;
+}
+.keys-leave-active {
   position: absolute;
-  filter: blur(50px);
-  height: 0;
-  scale: 1%;
 }
-
-.keyboard-enter-from {
+.keys-leave-to {
   opacity: 0;
-  transform: translateY(500px);
-  position: absolute;
-  margin: auto;
-  bottom: 0;
-  right: 50%;
-  filter: blur(50px);
-  scale: 1%;
+  // position: absolute;
+  transform: translateX(30px);
 }
-
-//////////////////////////////////////////////
-.switcher-enter-active {
-  transition: all 0.4s ease-out;
-}
-
-.switcher-leave-active {
-  transition: all 0.4s ease-out;
-}
-
-.switcher-leave-to {
-  position: absolute;
-  bottom: 0;
+.keys-enter-from {
+  transform: rotateY(90deg);
+  // transform: rotateY(-90deg);
   opacity: 0;
-  transform: translateY(500px);
+  scale: 0;
+}
+/////////////////////
+/* применять переход к движущимся элементам */
+.list-move,
+.list-enter-active {
+  transition: all 1s ease-out 1s;
 }
 
-.switcher-enter-from {
-  position: absolute;
-  opacity: 0;
-  bottom: 0;
-  transform: translateY(500px);
+.list-leave-active {
+  transition: all 1s ease-out;
 }
+
+
+
