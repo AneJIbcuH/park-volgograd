@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStore } from '@/shared/stores/store'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { keys, type Key } from './model'
 import { gsap } from 'gsap'
 import VIcon from '@/shared/ui/v-icon/VIcon.vue'
@@ -93,40 +93,48 @@ function backSpace() {
 	}, 0)
 }
 
-const left = ref()
-const top = ref()
+type Coordinate = {
+	left: Number
+	top: Number
+}
+const keyboard = ref<HTMLElement>()
+const coordinates = ref<Coordinate[]>()
+
 function onBeforeEnter(el: any) {
-	console.log('beforte enter')
+		
 }
-
 function onEnter(el: any, done: any) {
-	console.log('enter')
+
 }
-function onLeave(el: Element, done: any) {
-	console.log('leave')
-	console.log('top', top.value)
-	console.log('left', left.value)
+function onLeave(el: any, done: any) {
 	el.style.position = 'absolute'
-	el.style.left = left.value + 'px'
-	el.style.top = top.value + 'px'
+	el.style.background = 'tomato'
+	el.style.scale = '0'
+	el.style.transform = 'rotateY(90deg)'
+	el.style.left = coordinates.value![el.dataset.index].left + 'px'
+	el.style.top = coordinates.value![el.dataset.index].top + 'px'
+}
+function onBeforeLeave(el: any) {
+
 }
 
-function onBeforeLeave(el: Element) {
-	// console.log('before leave client rect:', el.getBoundingClientRect())
-	// console.log('before leave innerHTML:', el.innerHTML)
-	console.log('before leave innerHTML:')
-	left.value = el.offsetLeft
-	top.value = el.offsetTop
-}
+onMounted(() => {
+	let arr = Array.from(keyboard.value!.children)
+
+	let arr1: Coordinate[] = []
+	arr.forEach((el: any) => {
+		arr1.push({ left: el.offsetLeft, top: el.offsetTop })
+	})
+	coordinates.value = arr1
+})
 </script>
 
 <template>
 	<div class="keyboard" :class="[{ firstOpen: firstOpen }]">
 		<KeyboardLinks />
-		<div class="keyboard-board">
+		<div class="keyboard-board" ref="keyboard">
 			<TransitionGroup
-				name="keys"
-				:appear="true"
+				name="key"
 				@before-enter="onBeforeEnter"
 				@enter="onEnter"
 				@leave="onLeave"
@@ -178,7 +186,7 @@ function onBeforeLeave(el: Element) {
 		width: 1712px;
 		height: 560px;
 		background: var(--white);
-		// position: relative;
+		position: relative;
 
 		&-icon {
 			color: transparent;
@@ -195,6 +203,7 @@ function onBeforeLeave(el: Element) {
 			font-weight: 500;
 			font-size: 32px;
 			color: var(--gray);
+			transition: all 1s ease-out;
 
 			&-144 {
 				width: 144px;
