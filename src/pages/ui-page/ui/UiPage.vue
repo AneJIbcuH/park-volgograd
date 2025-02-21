@@ -15,40 +15,39 @@ const active = ref(false)
 
 <template>
 	<div class="ui">
-			<VButton outline>Outline</VButton>
-			<VButton>Просто кнопка</VButton>
-			<VButton size="large">Large кнопка</VButton>
-			<VButton radius="l" outline>96px</VButton>
-			<VButton radius="xxs">24px</VButton>
-			<VButton radius="xs" variant="white">белая</VButton>
-			<VCheckbox
-				name="policy"
-				default-value="true"
-				:default-checked="true"
-				label="Аттракционы"
-			/>
-			<!-- <AboutAttraction/> -->
-			<VSearchInput
-				:active="active"
-				v-model="name"
-				@click="active = !active"
-				placeholder="Поиск мест и аттракционов"
-			/>
-			{{ name }}
-			<!-- <CardAttraction/>
+		<VButton outline>Outline</VButton>
+		<VButton>Просто кнопка</VButton>
+		<VButton size="large">Large кнопка</VButton>
+		<VButton radius="l" outline>96px</VButton>
+		<VButton radius="xxs">24px</VButton>
+		<VButton radius="xs" variant="white">белая</VButton>
+		<div></div>
+		<VCheckbox
+			name="policy"
+			default-value="true"
+			:default-checked="true"
+			label="Аттракционы"
+		/>
+		<!-- <AboutAttraction/> -->
+		<VSearchInput
+			:active="active"
+			v-model="name"
+			@click="active = !active"
+			placeholder="Поиск мест и аттракционов"
+		/>
+		{{ name }}
+		<!-- <CardAttraction/>
 			<CardNews/>
 			<CardEvents/> -->
-			<VSwitcher />
-
+		<VSwitcher />
 	</div>
 </template>
 
 <style lang="scss" scoped>
- .ui {
+.ui {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 10px;
 	padding: 80px;
- }
-
+}
 </style>

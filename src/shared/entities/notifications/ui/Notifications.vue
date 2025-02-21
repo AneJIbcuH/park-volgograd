@@ -104,7 +104,7 @@ const active = ref(false)
 	border-radius: var(--rounded-full);
 	transition: all 0.5s ease-out;
 	overflow: hidden;
-	transform: scale(0.5);
+	scale: 0.5;
 
 	&-small {
 		&-icon {
@@ -193,6 +193,6 @@ const active = ref(false)
 	height: 748px;
 	align-items: flex-start;
 	justify-content: flex-start;
-	transform: scale(1);
+	scale: 1;
 }
 </style>

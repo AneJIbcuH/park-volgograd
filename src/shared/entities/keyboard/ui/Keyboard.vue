@@ -3,12 +3,12 @@ import { useStore } from '@/shared/stores/store'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { keys, type Key } from './model'
-import { gsap } from 'gsap'
 import VIcon from '@/shared/ui/v-icon/VIcon.vue'
 import KeyboardLinks from '../../keyboard-links/ui/KeyboardLinks.vue'
 
 const { widget, searchString, linkInput } = storeToRefs(useStore())
 const upperCase = ref(false)
+const scale = ref(false)
 const variant = ref<'valueNUM_RUS' | 'valueNUM_ENG' | 'valueRUS' | 'valueENG'>(
 	'valueRUS',
 )
@@ -23,7 +23,14 @@ function writting(key: Key) {
 		if (key[variant.value] === 'backspace') {
 			backSpace()
 		} else if (key[variant.value] === 'shift') {
+			if (variant.value == 'valueNUM_ENG' || variant.value == 'valueNUM_RUS') {
+				return
+			}
 			upperCase.value = !upperCase.value
+			scale.value = !scale.value
+			setTimeout(() => {
+				scale.value = !scale.value
+			}, 200)
 		} else if (key[variant.value] === '&123_RUS') {
 			variant.value = 'valueNUM_RUS'
 		} else if (key[variant.value] === '&123_ENG') {
@@ -100,32 +107,24 @@ type Coordinate = {
 const keyboard = ref<HTMLElement>()
 const coordinates = ref<Coordinate[]>()
 
-function onBeforeEnter(el: any) {
-		
-}
-function onEnter(el: any, done: any) {
-
-}
+function onBeforeEnter(el: any) {}
+function onEnter(el: any, done: any) {}
+function onBeforeLeave(el: any) {}
 function onLeave(el: any, done: any) {
 	el.style.position = 'absolute'
-	el.style.background = 'tomato'
-	el.style.scale = '0'
-	el.style.transform = 'rotateY(90deg)'
+	//переставляем элементы на свои места где они и были изначально
 	el.style.left = coordinates.value![el.dataset.index].left + 'px'
 	el.style.top = coordinates.value![el.dataset.index].top + 'px'
 }
-function onBeforeLeave(el: any) {
-
-}
 
 onMounted(() => {
-	let arr = Array.from(keyboard.value!.children)
-
-	let arr1: Coordinate[] = []
-	arr.forEach((el: any) => {
-		arr1.push({ left: el.offsetLeft, top: el.offsetTop })
+	// находим координаты каждой клавиши
+	let arrayNodesKeys = Array.from(keyboard.value!.children)
+	let arrayCoordinates: Coordinate[] = []
+	arrayNodesKeys.forEach((el: any) => {
+		arrayCoordinates.push({ left: el.offsetLeft, top: el.offsetTop })
 	})
-	coordinates.value = arr1
+	coordinates.value = arrayCoordinates
 })
 </script>
 
@@ -134,7 +133,8 @@ onMounted(() => {
 		<KeyboardLinks />
 		<div class="keyboard-board" ref="keyboard">
 			<TransitionGroup
-				name="key"
+				name="keys"
+				appear
 				@before-enter="onBeforeEnter"
 				@enter="onEnter"
 				@leave="onLeave"
@@ -146,7 +146,8 @@ onMounted(() => {
 					:data-index="index"
 					:class="[
 						key.class,
-						upperCase && key[variant] != 'Enter' ? 'upperCase' : '',
+						upperCase && !key.noEffect ? 'upperCase' : '',
+						scale && !key.noEffect ? 'scale scale1 scale2' : '',
 					]"
 					@click="writting(key)"
 				>
@@ -203,7 +204,7 @@ onMounted(() => {
 			font-weight: 500;
 			font-size: 32px;
 			color: var(--gray);
-			transition: all 1s ease-out;
+			transition: all 0.7s ease-out;
 
 			&-144 {
 				width: 144px;
@@ -220,11 +221,23 @@ onMounted(() => {
 
 			&:active {
 				box-shadow: 4px 4px 10px 1px var(--yellow);
+				background: var(--yellow-secondary);
 			}
 		}
 
 		.upperCase {
 			text-transform: uppercase;
+		}
+
+		.scale {
+			font-size: 40px;
+			filter: blur(5px);
+		}
+		.scale1 {
+			font-size: 50px;
+		}
+		.scale2 {
+			font-size: 60px;
 		}
 	}
 

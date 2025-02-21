@@ -7,6 +7,7 @@ export type Key = {
 	icon?: string
 	size?: string
 	cut?: boolean
+	noEffect?: true
 }
 
 export const keys: Key[] = [
@@ -195,6 +196,7 @@ export const keys: Key[] = [
 		valueNUM_RUS: 'Enter',
 		valueNUM_ENG: 'Enter',
 		class: 'key key-192',
+		noEffect: true,
 	},
 	{
 		cut: true,
@@ -203,6 +205,7 @@ export const keys: Key[] = [
 		valueNUM_RUS: 'АБВ____',
 		valueNUM_ENG: 'ABC____',
 		class: 'key key-192',
+		noEffect: true,
 	},
 	{
 		valueRUS: 'я',
@@ -281,6 +284,7 @@ export const keys: Key[] = [
 		valueNUM_RUS: 'ENG_NUM',
 		valueNUM_ENG: 'RUS_NUM',
 		class: 'key key-192',
+		noEffect: true,
 	},
 	{
 		valueRUS: ' ',
