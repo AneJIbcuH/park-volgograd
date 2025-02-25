@@ -4,11 +4,14 @@ import CardGifts, {
 	type TypeCardGifts,
 } from '../../card-gifts/ui/CardGifts.vue'
 import { axiosInstance } from '@/shared/api'
+import { storeToRefs } from 'pinia'
+import { useStore } from '@/shared/stores/store'
 
 const activeFilter = ref(1)
 const gifts = ref<TypeCardGifts[]>([])
+const { currentLanguage } = storeToRefs(useStore())
 
-axiosInstance.get('/api/gifts').then((res) => {
+axiosInstance.get(`/api/${currentLanguage}/gifts`).then((res) => {
 	gifts.value = res.data
 })
 </script>

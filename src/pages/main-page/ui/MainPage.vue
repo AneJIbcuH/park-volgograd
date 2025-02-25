@@ -4,15 +4,15 @@ import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import VSwitcher from '@/shared/ui/v-switcher/VSwitcher.vue'
 import ParkMap from '@/shared/entities/map/ui/ParkMap.vue'
-import Search from '@/shared/entities/search/ui/Search.vue'
 import AboutAttraction from '@/shared/entities/about-attraction/ui/AboutAttraction.vue'
 import Info from '@/shared/entities/info/ui/Info.vue'
 import Events from '@/shared/entities/events/ui/Events.vue'
 import News from '@/shared/entities/news/ui/News.vue'
 import Gifts from '@/shared/entities/gifts/ui/Gifts.vue'
-import Places from '@/shared/entities/places/ui/Places.vue'
-import Keyboard from '@/shared/entities/keyboard/ui/Keyboard.vue'
+import Objects from '@/shared/entities/objects/ui/Objects.vue'
 import Notifications from '@/shared/entities/notifications/ui/Notifications.vue'
+import Links from '@/shared/entities/links/ui/Links.vue'
+import Zoom from '@/shared/entities/zoom/ui/Zoom.vue'
 
 const { widget } = storeToRefs(useStore())
 
@@ -28,7 +28,7 @@ function touchStart(e: TouchEvent) {
 function touchMove(e: TouchEvent) {
 	if (e.changedTouches[0].clientY - initialTouch.value >= 50) {
 		distance.value = 3730 - indicator.value!.offsetTop
-		transition.value = 0.4 +  indicator.value!.offsetHeight / 5600
+		transition.value = 0.4 + indicator.value!.offsetHeight / 5600
 	}
 	if (e.changedTouches[0].clientY - initialTouch.value <= -50) {
 		distance.value = 0
@@ -39,6 +39,7 @@ function touchMove(e: TouchEvent) {
 <template>
 	<div class="main-page">
 		<ParkMap />
+		<Zoom />
 		<Notifications />
 		<div
 			@touchstart="touchStart"
@@ -58,22 +59,18 @@ function touchMove(e: TouchEvent) {
 			>
 				<TransitionGroup name="drawer" :appear="true">
 					<AboutAttraction v-if="widget == 'attraction'" />
-					<Search
+					<Links
 						v-if="
-							widget == 'map' ||
-							widget == 'settings' ||
-							widget == 'attraction' ||
-							widget == 'keyboard'
+							widget == 'map' || widget == 'settings' || widget == 'attraction'
 						"
 					/>
-					<Places v-if="widget == 'places'" />
+					<Objects v-if="widget == 'objects'" />
 					<News v-if="widget == 'news'" />
 					<Events v-if="widget == 'events'" />
 					<Info v-if="widget == 'info'" />
 					<Gifts v-if="widget == 'gifts'" />
 				</TransitionGroup>
-				<Keyboard v-if="widget == 'keyboard'" />
-				<VSwitcher v-if="widget != 'keyboard'" />
+				<VSwitcher />
 			</div>
 		</div>
 	</div>
@@ -85,13 +82,14 @@ function touchMove(e: TouchEvent) {
 	height: 100vh;
 	position: relative;
 	overflow: hidden;
+	background-color: var(--gray-secondary);
 
 	&-drawer {
 		width: 100%;
 		border-radius: var(--rounded-xl) var(--rounded-xl) 0 0;
 		background: var(--bg);
 		padding: 88px 80px 80px;
-		position: absolute;
+		position: fixed;
 		bottom: 0;
 		transition: all ease;
 		// overflow: hidden;

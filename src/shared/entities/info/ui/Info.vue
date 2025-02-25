@@ -1,22 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import VButton from '@/shared/ui/v-button/VButton.vue'
-import VModal from '@/shared/ui/v-modal/ui/VModal.vue'
 import VIcon from '@/shared/ui/v-icon/VIcon.vue'
 
 const hidden = ref(true)
-const openModal = ref(false)
-const modalName = ref<'tg' | 'vk'>()
-
-function openVk() {
-	modalName.value = 'vk'
-	openModal.value = !openModal.value
-}
-
-function openTg() {
-	modalName.value = 'tg'
-	openModal.value = !openModal.value
-}
 
 setTimeout(() => {
 	hidden.value = !hidden.value
@@ -25,50 +11,25 @@ setTimeout(() => {
 
 <template>
 	<div class="info">
-		<VModal :model-value="openModal">
-			<div class="modal" v-if="modalName == 'vk'">
-				<div class="modal-info">
-					<div class="title">Группа в контакте</div>
-					<div class="text">
-						Отсканируйте QR-код для вступление в сообщество в социальной сети
-						Вконтакте
-					</div>
-				</div>
-				<VIcon name="qr-code-vk" size="300" />
-				<VButton @click="openModal = !openModal">Закрыть</VButton>
-			</div>
-			<div class="modal" v-if="modalName == 'tg'">
-				<div class="modal-info">
-					<div class="title">Канал в телеграмм</div>
-					<div class="text">
-						Отсканируйте QR-код для вступление в канал в Телеграмм
-					</div>
-				</div>
-				<VIcon name="qr-code-vk" size="300" />
-				<VButton @click="openModal = !openModal">Закрыть</VButton>
-			</div>
-		</VModal>
 		<div class="info-social">
-			<div :class="['info-social-park', 'block', { hidden: hidden }]">
+			<div :class="['info-social-park', { hidden: hidden }]">
 				<div :class="['park', { 'hidden-park': hidden }]">
 					<div class="title">Центральный парк культуры и отдыха</div>
 					<div class="text text-l">
-						Центральный парк культуры и отдыха — это современное пространство с
-						зонами отдыха, аттракционами и развлечениями для детей и взрослых. В
-						парке есть более 40 аттракционов, в числе которых колесо обозрения,
-						двухэтажная свадебная карусель, самый большой в России крытый
-						автодром.<br />
+						ЦПКиО Волгограда — это современное пространство для отдыха. В парке
+						есть более 40 активностей для детей и взрослых, в любое время года
+						вы найдете подходящее развлечение.
 						<br />
-						В теплое время года в парке работает более 30 различных активностей:
-						колесо обозрения, свадебная карусель, крытый автодром, спортивная
-						зона и множество других аттракционов. Весной и осенью можно
-						покататься на катамаранах в озере «Лагуна». Летом работает большой
-						детский водоем, а зимой он превращается в открытый каток.<br />
 						<br />
-						Также в парке работает фуд-корт: можно купить кофе, чай, хот-доги,
-						бургеры. Каждые выходные мы проводим мероприятия для детей и
-						взрослых. Фестивали национальных культур, семейные праздники, квесты
-						и многое другое.
+						У ЦПКиО есть собственная сеть питания «Вкуснопарк» — 4 фуд-корта в
+						разных уголках парка уже ждут вас!
+						<br />
+						<br />
+						И, конечно, заглядывайте к нам на мероприятия. За анонсами удобно
+						следить в наших соцсетях.
+						<br />
+						<br />
+						Приятного отдыха и до новых встреч!
 					</div>
 				</div>
 				<div :class="['hotline', { 'hidden-hotline': hidden }]">
@@ -76,45 +37,45 @@ setTimeout(() => {
 					<div class="hotline-num">+7 (937) 097-14-78</div>
 				</div>
 			</div>
-			<div class="info-social-vk block">
-				<div :class="['title', { 'hidden-vk': hidden }]">Группа Вконтакте</div>
-				<div :class="['text-l', { 'hidden-vk': hidden }]">
-					Подписывайтесь, чтобы не упустить акции, розыгрыши, новости и
-					интересные события в Волгограде!
+
+			<div class="info-social-block tg">
+				<div :class="['title', { 'hidden-text': hidden }]">
+					Телеграмм <br />бот
 				</div>
-				<VButton
-					@click="openVk"
-					variant="white"
-					radius="xs"
-					:class="['vk-btn', { 'hidden-vk': hidden }]"
-				>
-					Вступить в группу
-				</VButton>
-				<img
-					src="/info/vk-i.png"
-					alt=""
-					:class="['vk-iphone', { 'hidden-vk-iphone': hidden }]"
-				/>
+				<div :class="['text-l', { 'hidden-text': hidden }]">
+					Хотите купить билет и не стоять в очереди? Заведите бесплатную
+					платежную карту парка с помощью телеграм-бота! Там же собрали цены,
+					акции и другую полезную информацию.
+				</div>
+				<div class="qr-code" :class="['qr-code', { 'hidden-qr': hidden }]">
+					<VIcon name="qr-code-tg" size="264" class="icon" />
+				</div>
 			</div>
-			<div class="info-social-tg block">
-				<div :class="['title', { 'hidden-tg': hidden }]">Телеграмм Канал</div>
-				<div :class="['text-l', { 'hidden-tg': hidden }]">
-					Задать любой вопрос, поделиться идеями или мнением о посещении парка
-					можно в телеграм-канале директора ЦПКиО Андрея Еркина
+
+			<div class="info-social-block vk">
+				<div :class="['title', { 'hidden-text': hidden }]">
+					Группа Вконтакте
 				</div>
-				<VButton
-					@click="openTg"
-					variant="white"
-					radius="xs"
-					:class="['tg-btn', { 'hidden-tg': hidden }]"
-				>
-					Подписаться на канал
-				</VButton>
-				<img
-					src="/info/tg-i.png"
-					alt=""
-					:class="['tg-iphone', { 'hidden-tg-iphone': hidden }]"
-				/>
+				<div :class="['text-l', { 'hidden-text': hidden }]">
+					Новости, анонсы мероприятий, скидки и акции — узнавайте все первыми в
+					нашем сообществе ВКонтакте «Мой парк».
+				</div>
+				<div class="qr-code" :class="['qr-code', { 'hidden-qr': hidden }]">
+					<VIcon name="qr-code-vk" size="264" class="icon" />
+				</div>
+			</div>
+			<div class="info-social-block tg">
+				<div :class="['title', { 'hidden-text': hidden }]">
+					Телеграмм<br />
+					Канал
+				</div>
+				<div :class="['text-l', { 'hidden-text': hidden }]">
+					Задать вопрос, выиграть что-нибудь крутое или просто быть в курсе всех
+					новостей можно с помощью телеграм-канала «Мой парк». Подписывайтесь!
+				</div>
+				<div class="qr-code" :class="['qr-code', { 'hidden-qr': hidden }]">
+					<VIcon name="qr-code-tg" size="264" class="icon" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -130,19 +91,19 @@ setTimeout(() => {
 		padding: 40px;
 		background: var(--white);
 		border-radius: var(--rounded-l);
-
-		.block {
-			border-radius: var(--rounded);
-			padding: 80px;
-		}
+		display: flex;
+		flex-wrap: wrap;
+		gap: 40px;
 
 		&-park {
+			width: 100%;
 			background-image: url('/info/park.png');
 			background-size: cover;
-			height: 1277px;
 			position: relative;
 			transition: all var(--transition-time-info) ease;
 			overflow: hidden;
+			border-radius: var(--rounded);
+			padding: 80px;
 
 			.park {
 				transition: all var(--transition-time-info) ease;
@@ -180,16 +141,17 @@ setTimeout(() => {
 			}
 		}
 
-		&-vk {
+		&-block {
 			display: flex;
 			flex-direction: column;
-			align-items: start;
-			background-image: url('/info/vk-bg.png');
+			align-items: center;
+			text-align: center;
 			background-size: cover;
-			margin: 40px 0;
-			height: 794px;
-			position: relative;
 			overflow: hidden;
+			padding: 64px 32px;
+			border-radius: var(--rounded);
+			width: 613px;
+			height: 1044px;
 
 			.title {
 				color: var(--white);
@@ -199,60 +161,28 @@ setTimeout(() => {
 			.text-l {
 				color: var(--white-alpha-95);
 				margin-top: 24px;
-				width: 802px;
 				transition: all var(--transition-time-info) ease;
 			}
 
-			.vk-btn {
+			.qr-code {
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				margin-top: auto;
-				color: #2787f5;
-				transition: all var(--transition-time-info) ease;
-			}
-
-			.vk-iphone {
-				width: 686px;
-				position: absolute;
-				top: 80px;
-				right: 80px;
+				width: 300px;
+				height: 300px;
+				border-radius: 32px;
+				background: var(--white);
 				transition: all var(--transition-time-info) ease;
 			}
 		}
 
-		&-tg {
-			display: flex;
-			flex-direction: column;
-			align-items: start;
+		.vk {
+			background-image: url('/info/vk-bg.png');
+		}
+
+		.tg {
 			background-image: url('/info/tg-bg.png');
-			background-size: cover;
-			height: 794px;
-			position: relative;
-			overflow: hidden;
-
-			.title {
-				color: var(--white);
-				transition: all var(--transition-time-info) ease;
-			}
-
-			.text-l {
-				color: var(--white-alpha-95);
-				margin-top: 24px;
-				width: 802px;
-				transition: all var(--transition-time-info) ease;
-			}
-
-			.tg-btn {
-				margin-top: auto;
-				color: #18a3e6;
-				transition: all var(--transition-time-info) ease;
-			}
-
-			.tg-iphone {
-				width: 686px;
-				position: absolute;
-				top: 80px;
-				right: 80px;
-				transition: all var(--transition-time-info) ease;
-			}
 		}
 
 		.hidden {
@@ -267,37 +197,16 @@ setTimeout(() => {
 				right: -300px;
 			}
 
-			&-vk {
+			&-text {
 				transform: translateX(-300px);
-
-				&-iphone {
-					transform: rotateY(90deg);
-				}
 			}
 
-			&-tg {
-				transform: translateX(-300px);
-
-				&-iphone {
-					transform: rotateY(90deg);
-				}
+			&-qr {
+				scale: 0.5;
+				// transform: translateX(300px);
+				opacity: 0;
 			}
 		}
-	}
-}
-
-.modal {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-	justify-content: center;
-	gap: 40px;
-	padding: 20px;
-
-	.text {
-		width: 900px;
-		margin-top: 20px;
 	}
 }
 </style>

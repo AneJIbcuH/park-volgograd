@@ -4,10 +4,13 @@ import CardEvents, {
 	type TypeCardEvents,
 } from '../../card-events/ui/CardEvents.vue'
 import { axiosInstance } from '@/shared/api'
+import { storeToRefs } from 'pinia'
+import { useStore } from '@/shared/stores/store'
 
 const events = ref<TypeCardEvents[]>([])
+const { currentLanguage } = storeToRefs(useStore())
 
-axiosInstance.get('/api/events').then((res) => {
+axiosInstance.get(`/api/${currentLanguage}/events`).then((res) => {
 	events.value = res.data
 })
 </script>

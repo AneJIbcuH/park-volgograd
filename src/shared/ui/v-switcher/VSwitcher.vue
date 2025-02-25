@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useStore, type Widget } from '@/shared/stores/store'
+import { useStore, type Lang, type Widget } from '@/shared/stores/store'
 import { storeToRefs } from 'pinia'
-import { ref, watchEffect } from 'vue'
+import { ref } from 'vue'
 import VIcon from '@/shared/ui/v-icon/VIcon.vue'
 import VModal from '../v-modal/ui/VModal.vue'
 import VButton from '../v-button/VButton.vue'
@@ -13,23 +13,18 @@ type Point = {
 }
 
 type Language = {
-	name: string
+	name: Lang
 	translate: string
 	active: boolean
 	img: string
 }
+
 const firstOpen = ref(true)
 setTimeout(() => {
 	firstOpen.value = !firstOpen.value
 }, 100)
 
-const { widget } = storeToRefs(useStore())
-
-// watchEffect(() => {
-// 	if (widget.value == 'keyboard') {
-// 		firstOpen.value = !firstOpen.value
-// 	}
-// })
+const { widget, currentLanguage } = storeToRefs(useStore())
 
 const elements = ref<Point[]>([
 	{ id: 1, name: 'map', active: true },
@@ -73,6 +68,7 @@ function switchLanguage(language: Language) {
 		}
 		return { ...el, active: false }
 	})
+	currentLanguage.value = language.name
 }
 </script>
 

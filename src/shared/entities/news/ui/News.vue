@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import { useStore } from '@/shared/stores/store'
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import CardNews, { type TypeCardNews } from '../../card-news/ui/CardNews.vue'
 import { axiosInstance } from '@/shared/api'
 
+const { currentLanguage } = storeToRefs(useStore())
 const activeFilter = ref(1)
 const news = ref<TypeCardNews[]>([])
 
-axiosInstance.get('/api/news').then((res) => (news.value = res.data))
+axiosInstance.get(`/api/${currentLanguage}/news`).then((res) => (news.value = res.data))
 </script>
 
 <template>

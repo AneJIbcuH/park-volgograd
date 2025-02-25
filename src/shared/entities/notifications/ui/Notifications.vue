@@ -95,7 +95,7 @@ const active = ref(false)
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: absolute;
+	position: fixed;
 	top: 20px;
 	right: 20px;
 	width: 256px;

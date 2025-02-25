@@ -10,14 +10,19 @@ export type Widget =
 	| 'info'
 	| 'settings'
 	| 'attraction'
-	| 'places'
+	| 'objects'
 	| 'keyboard'
+
+export type Lang = 'Russian' | 'English' | 'China'
 
 export const useStore = defineStore('store', () => {
 	const widget = ref<Widget>('map')
 	const searchString = ref('')
 	const linkInput = ref()
 	const cardAttraction = ref<TypeCardAttraction>()
+	const currentLanguage = ref<Lang>('Russian')
+	const scaleMap = ref(2.3)
+	const ratio = ref(0.5)
 
-	return { widget, searchString, linkInput, cardAttraction }
+	return { widget, searchString, linkInput, cardAttraction, currentLanguage, scaleMap, ratio }
 })
